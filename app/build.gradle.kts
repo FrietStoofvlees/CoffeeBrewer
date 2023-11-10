@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "be.frietstoofvlees.coffeebrewer"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "be.frietstoofvlees.coffeebrewer"

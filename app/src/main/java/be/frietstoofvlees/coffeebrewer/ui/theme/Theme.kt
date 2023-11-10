@@ -37,6 +37,13 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val CustomScheme = lightColorScheme(
+    primary = CoffeeBrown,
+    secondary = CreamyBeige,
+    background = WarmGrey,
+    onBackground = DarkBrown
+)
+
 @Composable
 fun CoffeeBrewerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -49,9 +56,9 @@ fun CoffeeBrewerTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        // TODO: Custom dark and light scheme
+        darkTheme -> CustomScheme
+        else -> CustomScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
