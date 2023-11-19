@@ -2,7 +2,6 @@ package be.frietstoofvlees.coffeebrewer.ui.theme
 
 import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -16,15 +15,17 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
+    // TODO: Custom dark theme
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = CoffeeBrown,
+    secondary = CreamyBeige,
+    background = WarmGrey,
+    onBackground = DarkBrown
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,16 +38,10 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
-private val CustomScheme = lightColorScheme(
-    primary = CoffeeBrown,
-    secondary = CreamyBeige,
-    background = WarmGrey,
-    onBackground = DarkBrown
-)
-
 @Composable
 fun CoffeeBrewerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    //darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
@@ -56,16 +51,15 @@ fun CoffeeBrewerTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        // TODO: Custom dark and light scheme
-        darkTheme -> CustomScheme
-        else -> CustomScheme
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = colorScheme.background.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
