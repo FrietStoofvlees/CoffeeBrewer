@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import be.frietstoofvlees.coffeebrewer.ui.screens.HomeScreen
+import be.frietstoofvlees.coffeebrewer.ui.screens.LoginViewModel
+import be.frietstoofvlees.coffeebrewer.ui.screens.ProfileScreen
 import be.frietstoofvlees.coffeebrewer.ui.theme.CoffeeBrewerTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen()
+                    val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
+                    ProfileScreen(viewModel = loginViewModel)
                 }
             }
         }

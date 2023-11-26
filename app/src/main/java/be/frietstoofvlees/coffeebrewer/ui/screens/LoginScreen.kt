@@ -18,7 +18,7 @@ import be.frietstoofvlees.coffeebrewer.R
 import be.frietstoofvlees.coffeebrewer.ui.components.InputFieldComponent
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(viewModel: LoginViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         InputFieldComponent(labelValue = stringResource(R.string.email),
             icon = Icons.Outlined.Email)
@@ -26,7 +26,7 @@ fun ProfileScreen() {
         InputFieldComponent(labelValue = stringResource(R.string.password),
             icon = Icons.Outlined.Lock)
         Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { viewModel.login() }) {
             Text(text = "Log in")
         }
     }
@@ -35,5 +35,5 @@ fun ProfileScreen() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ProfileScreen()
+    //ProfileScreen()
 }
