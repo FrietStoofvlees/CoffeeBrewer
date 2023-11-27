@@ -1,5 +1,6 @@
 package be.frietstoofvlees.coffeebrewer.ui.screens
 
+import android.widget.TextClock
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,26 +18,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import be.frietstoofvlees.coffeebrewer.R
 
 @Composable
 fun HomeScreen() {
-    Column(
+     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        DisplayClock()
+
         Image(
             painter = painterResource(id = R.drawable.icons8_coffee),
             contentDescription = "coffee icon",
             modifier = Modifier
                 .size(100.dp)
-                .padding(16.dp)
+                .padding(bottom = 16.dp)
         )
 
         Text(
@@ -57,4 +62,22 @@ fun HomeScreen() {
             Text("Start Brewing")
         }
     }
+}
+
+@Composable
+fun DisplayClock() {
+    var color: Int = MaterialTheme.colorScheme.onBackground.toArgb()
+    
+    AndroidView(
+        factory = { context ->
+            TextClock(context).apply {
+                format24Hour?.let {this.format24Hour = "HH:mm:ss"}
+                timeZone?.let { this.timeZone = it }
+                textSize.let { this.textSize = 30f }
+
+                setTextColor(color)
+            }
+        },
+        modifier = Modifier.padding(bottom = 16.dp)
+    )
 }
