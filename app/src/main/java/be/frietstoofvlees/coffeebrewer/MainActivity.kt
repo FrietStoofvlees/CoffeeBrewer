@@ -1,50 +1,88 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package be.frietstoofvlees.coffeebrewer
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import be.frietstoofvlees.coffeebrewer.ui.components.CoffeeBrewerTabRow
 import be.frietstoofvlees.coffeebrewer.ui.screens.HomeScreen
-import be.frietstoofvlees.coffeebrewer.ui.screens.LoginViewModel
-import be.frietstoofvlees.coffeebrewer.ui.screens.ProfileScreen
+import be.frietstoofvlees.coffeebrewer.ui.screens.LoginScreen
 import be.frietstoofvlees.coffeebrewer.ui.theme.CoffeeBrewerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CoffeeBrewerTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
-                    ProfileScreen(viewModel = loginViewModel)
+            CoffeeBrewerApp()
+        }
+    }
+}
+
+@Composable
+fun CoffeeBrewerApp() {
+    CoffeeBrewerTheme {
+        val navController = rememberNavController()
+        val currentBackStack by navController.currentBackStackEntryAsState()
+        // Fetch your currentDestination:
+        val currentDestination = currentBackStack?.destination
+        // Change the variable to this and use Home as a backup screen if this returns null
+        val currentScreen = tabRowScreens.find { it.route == currentDestination?.route } ?: Home
+
+        Scaffold(
+            topBar = {
+                CoffeeBrewerTabRow(
+                    allScreens = tabRowScreens,
+                    onTabSelected = { newScreen ->
+                        navController
+                            .navigateSingleTopTo(newScreen.route)
+                    },
+                    currentScreen = currentScreen
+                )
+            }
+        ) { innerPadding ->
+            NavHost(
+                navController = navController,
+                startDestination = Home.route,
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                composable(route = Home.route) {
+                    HomeScreen()
+                }
+                composable(route = Login.route) {
+                    LoginScreen()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun NavHostController.navigateSingleTopTo(route: String) =
+    this.navigate(route) {
+        popUpTo(
+            this@navigateSingleTopTo.graph.findStartDestination().id
+        ) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    CoffeeBrewerTheme {
-        HomeScreen()
-    }
+    CoffeeBrewerApp()
 }
