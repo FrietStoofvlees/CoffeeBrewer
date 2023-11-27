@@ -20,14 +20,18 @@ import be.frietstoofvlees.coffeebrewer.ui.components.InputFieldComponent
 @Composable
 fun ProfileScreen(viewModel: LoginViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
-        InputFieldComponent(labelValue = stringResource(R.string.email),
-            icon = Icons.Outlined.Email)
+        InputFieldComponent(
+            labelValue = stringResource(R.string.email),
+            icon = Icons.Outlined.Email,
+            onTextChanged = { viewModel.emailChanged(it) })
         Spacer(modifier = Modifier.height(10.dp))
-        InputFieldComponent(labelValue = stringResource(R.string.password),
-            icon = Icons.Outlined.Lock)
+        InputFieldComponent(
+            labelValue = stringResource(R.string.password),
+            icon = Icons.Outlined.Lock,
+            onTextChanged = { viewModel.passwordChanged(it) })
         Spacer(modifier = Modifier.height(10.dp))
         Button(onClick = { viewModel.login() }) {
-            Text(text = "Log in")
+            Text(text = stringResource(R.string.log_in))
         }
     }
 }

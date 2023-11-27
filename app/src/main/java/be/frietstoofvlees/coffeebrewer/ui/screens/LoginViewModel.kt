@@ -17,13 +17,13 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var email: String by mutableStateOf("")
     private var password: String by mutableStateOf("")
 
-// TODO
-//    fun setEmail(email: String) {
-//        this.email = email
-//    }
-//    fun setPassword(password: String) {
-//        this.password = password
-//    }
+    fun emailChanged(newEmail: String) {
+        email = newEmail
+    }
+
+    fun passwordChanged(newPassword: String) {
+        password = newPassword
+    }
 
     fun login() {
         viewModelScope.launch {

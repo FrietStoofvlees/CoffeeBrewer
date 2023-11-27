@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun InputFieldComponent(
     labelValue: String, icon: ImageVector,
+    onTextChanged: (String) -> Unit,
     errorStatus: Boolean = false
 ) {
     val textValue = remember {
@@ -46,6 +47,7 @@ fun InputFieldComponent(
         value = textValue.value,
         onValueChange = {
             textValue.value = it
+            onTextChanged(it)
         },
         leadingIcon = {
             Icon(icon, contentDescription = "")
