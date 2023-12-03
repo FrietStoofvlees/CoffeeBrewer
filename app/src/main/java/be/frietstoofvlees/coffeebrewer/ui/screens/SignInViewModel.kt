@@ -45,7 +45,7 @@ class SignInViewModel(private val userRepository: UserRepository) : ViewModel() 
                 }
             }
             .addOnFailureListener {
-
+                Log.e(TAG, "Authentication failed", it)
             }
     }
 
