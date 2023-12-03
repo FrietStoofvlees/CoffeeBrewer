@@ -39,6 +39,8 @@ fun InputFieldComponent(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
             focusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
             cursorColor = MaterialTheme.colorScheme.primary,
             containerColor = MaterialTheme.colorScheme.background
         ),
@@ -52,6 +54,6 @@ fun InputFieldComponent(
         leadingIcon = {
             Icon(icon, contentDescription = "")
         },
-        isError = !errorStatus
+        //isError = !errorStatus
     )
 }

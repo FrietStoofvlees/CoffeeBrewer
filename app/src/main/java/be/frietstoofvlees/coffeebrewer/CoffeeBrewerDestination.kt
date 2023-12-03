@@ -15,9 +15,9 @@ object Home : CoffeeBrewerDestination {
     override val route = "home"
 }
 
-object Login : CoffeeBrewerDestination {
+object SignIn : CoffeeBrewerDestination {
     override val icon = Icons.Default.AccountCircle
-    override val route = "login"
+    override val route = "sign in"
 }
 
-val tabRowScreens = listOf(Home, Login)
+val tabRowScreens = listOf(Home, SignIn)

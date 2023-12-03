@@ -20,15 +20,26 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import be.frietstoofvlees.coffeebrewer.ui.components.CoffeeBrewerTabRow
 import be.frietstoofvlees.coffeebrewer.ui.screens.HomeScreen
-import be.frietstoofvlees.coffeebrewer.ui.screens.LoginScreen
+import be.frietstoofvlees.coffeebrewer.ui.screens.SignInScreen
 import be.frietstoofvlees.coffeebrewer.ui.theme.CoffeeBrewerTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class MainActivity : ComponentActivity() {
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = Firebase.auth
         setContent {
             CoffeeBrewerApp()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
     }
 }
 
@@ -62,8 +73,8 @@ fun CoffeeBrewerApp() {
                 composable(route = Home.route) {
                     HomeScreen()
                 }
-                composable(route = Login.route) {
-                    LoginScreen()
+                composable(route = SignIn.route) {
+                    SignInScreen()
                 }
             }
         }

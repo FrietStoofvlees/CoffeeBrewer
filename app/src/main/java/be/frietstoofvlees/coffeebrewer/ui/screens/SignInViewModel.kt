@@ -1,21 +1,25 @@
 package be.frietstoofvlees.coffeebrewer.ui.screens
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import be.frietstoofvlees.coffeebrewer.CoffeeBrewerApplication
 import be.frietstoofvlees.coffeebrewer.data.UserRepository
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class SignInViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var email: String by mutableStateOf("")
     private var password: String by mutableStateOf("")
+
+    var authenticationInProgress = mutableStateOf(false)
 
     fun emailChanged(newEmail: String) {
         email = newEmail
@@ -25,14 +29,38 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         password = newPassword
     }
 
-    fun login() {
-        viewModelScope.launch {
-            val loginSuccessful = userRepository.login(email, password)
-            // TODO
-            if (loginSuccessful) {
-            } else {
+    fun signIn() {
+        authenticationInProgress.value = true
+
+        val email = email
+        val password = password
+
+        FirebaseAuth
+            .getInstance()
+            .signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    authenticationInProgress.value = false
+                    Log.d(TAG, "${it.isSuccessful}")
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    private fun signOut() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+
+        firebaseAuth.signOut()
+
+        val authStateListener = AuthStateListener {
+            if(it.currentUser == null) {
+                TODO("navigate to signInScreen")
             }
         }
+
+        firebaseAuth.addAuthStateListener(authStateListener)
     }
 
     //https://developer.android.com/codelabs/basic-android-kotlin-compose-add-repository#5
@@ -41,7 +69,7 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
             initializer {
                 val application = (this[APPLICATION_KEY] as CoffeeBrewerApplication)
                 val userRepository = application.container.userRepository
-                LoginViewModel(userRepository = userRepository)
+                SignInViewModel(userRepository = userRepository)
             }
         }
     }
