@@ -50,7 +50,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel(factory = SignUpViewMode
             ),
             modifier = Modifier.fillMaxWidth()
             ) {
-            Text(text = stringResource(R.string.log_in))
+            Text(text = stringResource(R.string.sign_up))
         }
         if (viewModel.signUpInProgress.value) {
             CircularProgressIndicator()

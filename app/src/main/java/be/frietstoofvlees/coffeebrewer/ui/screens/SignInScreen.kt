@@ -50,7 +50,7 @@ fun SignInScreen(viewModel: SignInViewModel = viewModel(factory = SignInViewMode
             ),
             modifier = Modifier.fillMaxWidth()
             ) {
-            Text(text = stringResource(R.string.log_in))
+            Text(text = stringResource(R.string.sign_in))
         }
         if (viewModel.authenticationInProgress.value) {
             CircularProgressIndicator()
