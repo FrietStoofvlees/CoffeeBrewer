@@ -2,6 +2,7 @@
 
 package be.frietstoofvlees.coffeebrewer.ui.components
 
+import android.widget.TextClock
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,9 +18,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
 fun InputFieldComponent(
@@ -55,5 +58,24 @@ fun InputFieldComponent(
             Icon(icon, contentDescription = "")
         },
         //isError = !errorStatus
+    )
+}
+
+
+@Composable
+fun CustomClock() {
+    val color: Int = MaterialTheme.colorScheme.onBackground.toArgb()
+
+    AndroidView(
+        factory = { context ->
+            TextClock(context).apply {
+                format24Hour?.let {this.format24Hour = "HH:mm:ss"}
+                timeZone?.let { this.timeZone = it }
+                textSize.let { this.textSize = 30f }
+
+                setTextColor(color)
+            }
+        },
+        modifier = Modifier.padding(bottom = 16.dp)
     )
 }
