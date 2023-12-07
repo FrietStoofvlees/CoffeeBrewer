@@ -14,11 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -31,6 +31,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import be.frietstoofvlees.coffeebrewer.CoffeeBrewerDestination
+import be.frietstoofvlees.coffeebrewer.Profile
+import be.frietstoofvlees.coffeebrewer.SignIn
+import be.frietstoofvlees.coffeebrewer.SignUp
 import java.util.Locale
 
 @Composable
@@ -49,16 +52,21 @@ fun CoffeeBrewerTabRow(
                 .selectableGroup()
                 .background(MaterialTheme.colorScheme.secondary)
         ) {
-            allScreens.forEach { screen ->
+            allScreens.filterNot { it.route == SignIn.route}.forEach { screen ->
                 CoffeeBrewerTab(
                     text = screen.route,
                     icon = screen.icon,
                     onSelected = { onTabSelected(screen) },
-                    selected = currentScreen == screen
+                    selected = currentScreen == screen || isProfileRelatedRoute(currentScreen.route, screen.route)
                 )
             }
         }
     }
+}
+
+private fun isProfileRelatedRoute(currentRoute: String, selectedRoute: String): Boolean {
+    val profileRoutes = listOf(Profile.route, SignIn.route, SignUp.route)
+    return profileRoutes.contains(currentRoute) && profileRoutes.contains(selectedRoute)
 }
 
 @Composable

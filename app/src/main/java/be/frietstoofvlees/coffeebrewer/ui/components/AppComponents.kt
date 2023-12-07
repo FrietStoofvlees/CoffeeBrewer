@@ -61,6 +61,39 @@ fun InputFieldComponent(
     )
 }
 
+@Composable
+fun FieldComponent(
+    textValue: String,
+    labelValue: String,
+    icon: ImageVector,
+    enabled: Boolean = true,
+) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(3.dp)),
+        enabled = enabled,
+        label = { Text(text = labelValue) },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        singleLine = true,
+        value = textValue,
+        onValueChange = {
+
+        },
+        leadingIcon = {
+            Icon(icon, contentDescription = "")
+        },
+    )
+}
+
 
 @Composable
 fun CustomClock() {

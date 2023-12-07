@@ -20,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import be.frietstoofvlees.coffeebrewer.ui.components.CoffeeBrewerTabRow
 import be.frietstoofvlees.coffeebrewer.ui.screens.HomeScreen
+import be.frietstoofvlees.coffeebrewer.ui.screens.ProfileScreen
 import be.frietstoofvlees.coffeebrewer.ui.screens.SignInScreen
 import be.frietstoofvlees.coffeebrewer.ui.theme.CoffeeBrewerTheme
 import com.google.firebase.Firebase
@@ -44,9 +45,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CoffeeBrewerApp() {
+fun CoffeeBrewerApp(navController: NavHostController = rememberNavController()) {
     CoffeeBrewerTheme {
-        val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         // Fetch your currentDestination:
         val currentDestination = currentBackStack?.destination
@@ -72,6 +72,9 @@ fun CoffeeBrewerApp() {
             ) {
                 composable(route = Home.route) {
                     HomeScreen()
+                }
+                composable(route = Profile.route) {
+                    ProfileScreen(onSignOutSuccessFull = { navController.navigate(SignIn.route)})
                 }
                 composable(route = SignIn.route) {
                     SignInScreen()
