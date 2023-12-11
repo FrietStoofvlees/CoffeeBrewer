@@ -52,7 +52,7 @@ fun CoffeeBrewerTabRow(
                 .selectableGroup()
                 .background(MaterialTheme.colorScheme.secondary)
         ) {
-            allScreens.filterNot { it.route == SignIn.route}.forEach { screen ->
+            allScreens.filterNot { it.route == SignIn.route || it.route == SignUp.route}.forEach { screen ->
                 CoffeeBrewerTab(
                     text = screen.route,
                     icon = screen.icon,

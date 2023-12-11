@@ -18,16 +18,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.frietstoofvlees.coffeebrewer.R
+import be.frietstoofvlees.coffeebrewer.ui.components.ClickableTextComponent
 import be.frietstoofvlees.coffeebrewer.ui.components.InputFieldComponent
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = viewModel(factory = SignUpViewModel.Factory)) {
+fun SignUpScreen(viewModel: SignUpViewModel = viewModel(factory = SignUpViewModel.Factory), onNavigateToSignIn: () -> Unit = {}) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)) {
+        Text(
+            text = "Welcome! Let's create your account.",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
         InputFieldComponent(
             labelValue = stringResource(R.string.email),
             icon = Icons.Outlined.Email,
@@ -52,6 +60,13 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel(factory = SignUpViewMode
             ) {
             Text(text = stringResource(R.string.sign_up))
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        ClickableTextComponent(
+            header = stringResource(id = R.string.sign_in_header),
+            textValue = stringResource(id = R.string.sign_in),
+            navigateTo = onNavigateToSignIn
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         if (viewModel.signUpInProgress.value) {
             CircularProgressIndicator()
         }

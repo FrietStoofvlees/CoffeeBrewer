@@ -5,6 +5,7 @@ package be.frietstoofvlees.coffeebrewer.ui.components
 import android.widget.TextClock
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,7 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 
@@ -110,5 +115,30 @@ fun CustomClock() {
             }
         },
         modifier = Modifier.padding(bottom = 16.dp)
+    )
+}
+
+@Composable
+fun ClickableTextComponent(header: String, textValue: String, navigateTo: () -> Unit = {}) {
+    val annotatedString = buildAnnotatedString {
+        append(header)
+        withStyle(
+            style = SpanStyle(color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+        ) {
+            pushStringAnnotation(tag = textValue, annotation = textValue)
+            append(textValue)
+        }
+    }
+
+    ClickableText(
+        text = annotatedString,
+        onClick = { offset ->
+            annotatedString.getStringAnnotations(offset, offset)
+                .firstOrNull()?.also { span ->
+                    if (span.item == textValue) {
+                        navigateTo()
+                    }
+                }
+        }
     )
 }

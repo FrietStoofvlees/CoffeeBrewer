@@ -30,4 +30,4 @@ object SignUp : CoffeeBrewerDestination {
     override val route = "sign up"
 }
 
-val tabRowScreens = listOf(Home, Profile, SignIn)
+val tabRowScreens = listOf(Home, Profile, SignIn, SignUp)

@@ -22,6 +22,7 @@ import be.frietstoofvlees.coffeebrewer.ui.components.CoffeeBrewerTabRow
 import be.frietstoofvlees.coffeebrewer.ui.screens.HomeScreen
 import be.frietstoofvlees.coffeebrewer.ui.screens.ProfileScreen
 import be.frietstoofvlees.coffeebrewer.ui.screens.SignInScreen
+import be.frietstoofvlees.coffeebrewer.ui.screens.SignUpScreen
 import be.frietstoofvlees.coffeebrewer.ui.theme.CoffeeBrewerTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -77,7 +78,10 @@ fun CoffeeBrewerApp(navController: NavHostController = rememberNavController()) 
                     ProfileScreen(onNavigateToSignIn = { navController.navigate(SignIn.route)})
                 }
                 composable(route = SignIn.route) {
-                    SignInScreen(onNavigateToProfile = { navController.navigate(Profile.route)})
+                    SignInScreen(onNavigateToProfile = { navController.navigate(Profile.route)}, onNavigateToSignUp = { navController.navigate(SignUp.route)})
+                }
+                composable(route = SignUp.route) {
+                    SignUpScreen(onNavigateToSignIn = { navController.navigate(SignIn.route)})
                 }
             }
         }
