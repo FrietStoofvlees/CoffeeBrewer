@@ -74,10 +74,10 @@ fun CoffeeBrewerApp(navController: NavHostController = rememberNavController()) 
                     HomeScreen()
                 }
                 composable(route = Profile.route) {
-                    ProfileScreen(onSignOutSuccessFull = { navController.navigate(SignIn.route)})
+                    ProfileScreen(onNavigateToSignIn = { navController.navigate(SignIn.route)})
                 }
                 composable(route = SignIn.route) {
-                    SignInScreen()
+                    SignInScreen(onNavigateToProfile = { navController.navigate(Profile.route)})
                 }
             }
         }

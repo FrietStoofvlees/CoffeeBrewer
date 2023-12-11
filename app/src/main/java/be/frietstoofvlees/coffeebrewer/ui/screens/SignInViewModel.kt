@@ -29,7 +29,7 @@ class SignInViewModel(private val userRepository: UserRepository) : ViewModel() 
         password = newPassword
     }
 
-    fun signIn() {
+    fun signIn(callback: (Boolean) -> Unit) {
         authenticationInProgress.value = true
 
         val email = email
@@ -42,10 +42,12 @@ class SignInViewModel(private val userRepository: UserRepository) : ViewModel() 
                 if (it.isSuccessful) {
                     authenticationInProgress.value = false
                     Log.d(TAG, "${it.isSuccessful}")
+                    callback(true)
                 }
             }
             .addOnFailureListener {
                 Log.e(TAG, "Authentication failed", it)
+                callback(false)
             }
     }
 

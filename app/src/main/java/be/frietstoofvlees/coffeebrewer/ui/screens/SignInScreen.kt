@@ -24,7 +24,7 @@ import be.frietstoofvlees.coffeebrewer.R
 import be.frietstoofvlees.coffeebrewer.ui.components.InputFieldComponent
 
 @Composable
-fun SignInScreen(viewModel: SignInViewModel = viewModel(factory = SignInViewModel.Factory)) {
+fun SignInScreen(viewModel: SignInViewModel = viewModel(factory = SignInViewModel.Factory), onNavigateToProfile: () -> Unit = {}) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)) {
@@ -38,7 +38,16 @@ fun SignInScreen(viewModel: SignInViewModel = viewModel(factory = SignInViewMode
             icon = Icons.Outlined.Lock,
             onTextChanged = { viewModel.passwordChanged(it) })
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { viewModel.signIn() },
+        Button(
+            onClick = {
+                viewModel.signIn() { success ->
+                    if (success) {
+                        onNavigateToProfile()
+                    } else {
+                        //TODO show toast
+                    }
+                }
+            },
             shape = RoundedCornerShape(3.dp),
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 10.dp,

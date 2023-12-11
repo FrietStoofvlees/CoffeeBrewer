@@ -24,10 +24,10 @@ import be.frietstoofvlees.coffeebrewer.R
 import be.frietstoofvlees.coffeebrewer.ui.components.FieldComponent
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory), onSignOutSuccessFull: () -> Unit = {}) {
+fun ProfileScreen(viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory), onNavigateToSignIn: () -> Unit = {}) {
     LaunchedEffect(key1 = viewModel.userEmail) {
         if (viewModel.userEmail == null) {
-            onSignOutSuccessFull()
+            onNavigateToSignIn()
         }
     }
     Column(modifier = Modifier
@@ -42,7 +42,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = viewModel(factory = ProfileViewM
         Button(
             onClick = {
                 if (viewModel.signOut()) {
-                    onSignOutSuccessFull()
+                    onNavigateToSignIn()
                 } else {
                     //TODO show toast
                 }
